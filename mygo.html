@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table, tr, td {
+   border: 0px;
+   padding:0px;
+}
+table {
+   position:absolute; left:52px; top:48px; 
+}
+td {
+   width:29px; 
+}
+tr {
+   height:29px;
+}
+.bd {
+   width:675px; height:675px; background-image:url('images/goboard.png'); 
+}
+.b {
+   width:29px; height:29px; background:url('images/bw.png') +0px -0px;
+}
+.w {
+   width:29px; height:29px; background:url('images/bw.png') +0px +29px;
+}
+.cw {
+   width:29px; height:29px; background:url('images/bw.png') +29px -0px;
+}
+.cb {
+   width:29px; height:29px; background:url('images/bw.png') +29px +29px;
+}
+#sp {
+   position:absolute; z-index:10; opacity:0.4; filter:alpha(opacity=40);
+}
+</style>
+<script type='text/javascript' src="scripts/GoGame.js" > </script>
+<script type='text/javascript' src="scripts/WeiQi.js"> </script>
+<script type='text/javascript'>
+var wq = new WeiQi();
+</script>
+</head>
+<body onload='wq.init();'>
+<div id='bd' class='bd'
+onmousedown="wq.process_mouse(event, 0);"  
+onmousemove="wq.process_mouse(event, 1);"> 
+<table id='tb'>
+</table>
+<div id='sp' class='b' style="display:none;"></div>
+</div>
+<div id='msg' style="position:absolute;left:720px;top:80px;"></div>
+<div style="position:absolute;left:720px;top:180px">
+	<input id='a' type='button' value='Undo' onclick='javascript:wq.undo();' ></input>
+	&nbsp; Trace<input id='trace' type='checkbox' onchange='javascript:wq.trac();'></input>
+</div>
+<div style="position:absolute;left:720px;top:280px">
+	<input type='button' value='Restart' onclick='javascript:wq.init();' ></input>
+</div>
+<div style="position:absolute;left:720px;top:380px;">
+	<input type='button' value='Review' onclick='javascript:wq.revw();' ></input>
+    	<select id='sel'><option>fast</option>
+    	<option>medium</option><option>slow</option>
+    	<option>manual</option></select>
+</div>
+<div style="position:absolute;left:720px;top:480px;">
+	<input type='file' value='Load' onchange='javascript:wq.load(event);' ></input>
+</div>
+</body>
+</html>

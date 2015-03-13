@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table { border:2px solid black; }
+td.bd { width:45px; height:45px; font-size:36px; color:blue;}
+td.bdf { width:45px; height:45px; font-size:36px; color:black;}
+td.nm { width:40px; height:40px; font-size:30px;}
+</style>
+<script type ='text/javascript' src='scripts/Sudoku.data'> </script>
+<script type ='text/javascript' src='scripts/Sudokugen.js'> </script>
+<script type ='text/javascript' src='scripts/Sudoku.js'> </script>
+</head>
+<body onload='new Sudoku().init();' >
+<div style='position:absolute;top:50px;left:100px;'>
+Load:<select onclick='mythis.reload(this.selectedIndex)'>
+<option>Beginner</option><option>Medium</option><option>Advance</option><option>Random</option><option>Random1</option>
+</select> &nbsp;
+<input type='button' value='Check' onclick='mythis.refresh();' /> &nbsp;
+<input type='button' value='Hint' onclick='mythis.hint();' /> &nbsp;
+<input type='button' value='Resolve' onclick='mythis.resolve();' /> &nbsp;
+<span id='timer'>00:00:00</span>
+<input type='button' value='II' onclick='mythis.pause();' />
+</div>
+<div style='position:absolute;top:100px;left:100px;'>
+<div id='cont'></div>
+<div id='ctrl' style='position:relative;top:-450px;left:470px;'></div>
+<div id='msg' style='position:absolute;top:460px;left:100px;'></div>
+</div>
+</body>
+</html>

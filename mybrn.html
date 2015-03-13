@@ -1,0 +1,131 @@
+<html>
+<head>
+
+<style type="text/css">
+div {
+width:50px;
+height:70px;
+}
+.dumy
+{
+}
+</style>
+
+<script type='text/javascript'>
+var deck=new Array();
+var cbk =  Math.random() > 0.5;
+var cmp=new Array();
+var cur = 0;
+var st = 0;
+var clk = 0;
+var cnt = 0;
+var sdt;
+
+for (var i=0; i<78; i++)
+	deck[i] = i;
+
+function shuffle()
+{
+    var i,j,k;
+    for(i=77; i>0; i--) {
+	j = Math.floor(Math.random()*i);
+	k = deck[i];
+	deck[i] = deck[j];
+	deck[j] = k;
+    }
+}
+function getcard(i,j)
+{
+var card = '<div style="background:url(' + "'images/cards.png') -" + (i*50) + 'px -' + (j*70) + 'px;"></div>';
+return card;
+}
+function takecard(k)
+{
+     return (getcard(deck[k]%13,Math.floor(deck[k]/13)));
+}
+function getback(n)
+{
+var card = '<div class="dumy" style="background:url(' + "'images/cards.png') -650px -" + (n*70) + 'px;"></div>';
+return card; 
+}
+function getempty()
+{
+return '<div></div>';
+}
+function process()
+{
+     if (cur == 2) {
+	n = (deck[cmp[2]] %13) == (deck[cmp[3]] % 13) ; 
+	if (n) cnt++;
+	n = n? 5: cbk;
+	cmp[0].innerHTML = getback(n);
+	cmp[1].innerHTML = getback(n);
+	cur = 0;
+	if (cnt == 39) {
+		st = 2;
+		var cdt = new Date();
+		var dif = (cdt - sdt)/1000;
+alert("     Congratulation!  \n(" + sdt.toLocaleTimeString() + " -- " + cdt.toLocaleTimeString() + ")\n You clicked " + clk*2 + " times\n spent total " + dif + " seconds \n     Try again" );
+             location.reload(true);
+	}
+     }
+}
+function changeTime()
+{
+    var el = document.getElementById('tm');
+    el.innerHTML = new Date().toLocaleTimeString() + " (" + cnt + ")";
+    if (st == 1)
+    setTimeout("changeTime()", 1000);
+}
+
+function doCheck(el, n)
+{
+    var t = el.innerHTML;
+    clk++;
+    if (cur < 2) {
+	if (t.search('class') > 0) {
+	      if (st == 0) {
+		 st = 1;
+		 sdt = new Date();
+		 changeTime();
+	      }
+	      p = (t.search('next') > 0)? 1: 0;
+	      if (cbk == p) {
+	      cmp[cur] = el;
+	      cmp[cur+2] = n;
+	      cur++;
+	      el.innerHTML = takecard(n);
+	      if (cur == 2) 
+		   setTimeout("process()", 1000);
+	      }
+	}
+	else {
+	      cur--;
+	      el.innerHTML = getback(cbk);
+        }
+    }
+}
+</script>
+</head>
+<body>
+<script type='text/javascript'>
+shuffle();
+document.write("<table>");
+for(var j = 0, k=0; j < 6; j++) {
+	document.write("<tr height='78'>");
+    	for(i = 0; i < 13; i++) {
+		document.write("<td width='54' onclick=doCheck(this," + k + ")>");
+	//	document.write(takecard(k));
+		document.write(getback(2));
+	//	document.write(getempty());
+		document.write("</td>");
+		k++;
+	}
+	document.write("</tr>");
+}
+document.write("</table>");
+
+</script>
+<p><b>Instruction: </b>Click two cards each time and try to find a matching pair. Test your brain memory and try to finish all cards in the least time.<b><div id='tm'></div></b></p>
+</body>
+</html>

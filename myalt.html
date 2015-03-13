@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css"> 
+.animated_div
+{
+width:520px;
+height:340px;
+color:#ffffff;
+position:relative;
+font-weight:bold;
+font-size:15px;
+padding:10px;
+float:left;
+margin:20px;
+margin-right:50px;
+border:1px solid #888888;
+-webkit-border-radius:5px;
+-moz-border-radius:5px;
+border-radius:5px;
+}
+#rotate1,#rotatey1
+{
+border:1px solid #000000;
+background:url('images/save.jpg');
+margin:10px;
+opacity:0.8;
+}
+.example_path {
+position:relative;
+border: 2px solid black;
+height:20px;
+width:520px;
+}
+.example_block {
+background-color:blue;
+position:absolute;
+height:20px;
+width:20px;
+}
+
+</style>
+<script type='text/javascript' src='scripts/Animation.js'></script>
+<script type='text/javascript' src='scripts/newanim.js'></script>
+<script type="text/javascript">
+function myFunction()
+{
+rotateDIV();
+rotateYDIV();
+}
+
+var myfunc = linear
+function myset()
+{
+        var el = document.getElementById('sel');
+        var n = el.selectedIndex;
+        var v = "myfunc = " + el.options[n].text;
+        eval ( v );
+        move( document.getElementById('me'), myfunc);
+}
+
+</script>
+</head>
+<body>
+
+<script type='text/javascript'>
+var x,y,n=0,ny=0,rotINT,rotYINT
+function rotateDIV()
+{
+x=document.getElementById("rotate1")
+clearInterval(rotINT)
+rotINT=setInterval("startRotate()",10)
+}
+function rotateYDIV()
+{
+y=document.getElementById("rotatey1")
+clearInterval(rotYINT)
+rotYINT=setInterval("startYRotate()",10)
+}
+function startRotate()
+{
+n=n+1
+x.style.transform="rotate(" + n + "deg)"
+x.style.webkitTransform="rotate(" + n + "deg)"
+x.style.OTransform="rotate(" + n + "deg)"
+x.style.MozTransform="rotate(" + n + "deg)"
+if (n==180 || n==360)
+	{
+	clearInterval(rotINT)
+	if (n==360){n=0}
+	}
+}
+function startYRotate()
+{
+ny=ny+1
+y.style.transform="rotateY(" + ny + "deg)"
+y.style.webkitTransform="rotateY(" + ny + "deg)"
+y.style.OTransform="rotateY(" + ny + "deg)"
+y.style.MozTransform="rotateY(" + ny + "deg)"
+if (ny==180 || ny>=360)
+	{
+	clearInterval(rotYINT)
+	if (ny>=360){ny=0}
+	}
+}
+</script>
+<input type="button" onclick="myFunction()" value="Click me and see" />
+
+<p class="example">Click on the elements below, to see the difference between a 2D transform and a 3D 
+transform:</p>
+		<div style="height:380px;">
+			<div onclick="rotateDIV()" id="rotate1" class="animated_div">2D rotate</div>
+			<div onclick="rotateYDIV()" id="rotatey1" class="animated_div">3D rotate</div>
+		</div>
+<br />
+
+<div onclick="move(this.children[0], myfunc)" class="example_path">
+    <div id='me' class="example_block"></div> <br><br>
+</div>
+<br>
+<div > <select id='sel'><option>linear</option>
+<option>quad</option><option>quint</option><option>circ</option>
+<option>elastic</option><option>bounce</option><option>back</option>
+</select>
+&nbsp;&nbsp;
+<input onclick='myset()' type='button' value='try me'></input>
+</div>
+
+</body>
+</html>
+
+

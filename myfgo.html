@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type='text/javascript' src="scripts/GoGame.js" > </script>
+<script type='text/javascript'>
+
+function msg(s) {
+   var ml = document.getElementById('msg');
+   if (ml) ml.innerHTML = s;
+   else alert(s);
+}
+
+var fl = new GoGame(0);
+
+function redsp() {
+   var el = document.getElementById('brd');
+   el.innerHTML = fl.disp();
+   el = document.getElementById('csr');
+   el.innerHTML = fl.getcsr();
+}
+function init() {
+   var w = window.innerWidth;
+   if (w > window.innerHeight) w = window.innerHeight;
+   document.getElementById('pan').style.left= w + "px";
+   fl.setbd(w);
+   redsp();
+}
+function undo() {
+   if (fl.M) msg( "In review mode!" );
+   else if ( fl.undo()) redsp();
+}
+function dorevw() {
+   if (fl.M == fl.C) {
+      fl.M = 0;
+      msg( 'Review is Done!' );
+   }
+   else {
+      var s = fl.review();
+      redsp();
+      msg( s );
+      setTimeout( "dorevw()", 2000 );
+   }
+}
+function revw() {
+   if (fl.C) {
+      fl.M = 0;
+      fl.clean();
+      redsp();
+      setTimeout( "dorevw()", 1000 );
+   }
+}
+function stplay() {
+   if (fl.C) msg('Need restart!');
+   else {
+      var el = document.getElementById('type');
+      fl.setply( parseInt(el.value)?1:0 );
+   }
+}
+function restart() {
+   var el = document.getElementById('size');
+   fl = new GoGame(parseInt(el.value));
+   init()
+   stplay();
+}
+function process_mouse(event, l) {
+   var docX= event.pageX;
+   var docY= event.pageY;
+   if (window.event) {
+       event = window.event;
+       // IE case
+       var d= (document.documentElement && 
+               document.documentElement.scrollLeft != null) ?
+              document.documentElement : document.body;
+       docX= event.clientX + d.scrollLeft;
+       docY= event.clientY + d.scrollTop;
+   }  
+   var x = Math.floor((docX-20)/fl.T);
+   var y = Math.floor((docY-20)/fl.T);
+   if (l == 0) {
+      if (fl.M) { msg ( "In review mode!" ); return; }
+      if ( fl.setst(x, y) ) {
+         redsp();
+         msg( fl.U[fl.C-1]);
+      }
+   }
+   else  {
+      if (x >= 0 && y >= 0 && x < fl.N && y < fl.N) {
+         msg( "X: " + x + " Y: " + y);
+         // var el = document.getElementById('csr');
+         // el.style.left = docX + 'px';
+	 // el.style.top = docY + 'px';
+      }
+      else
+      msg( "");
+   }
+}
+</script>
+</head>
+<body onload='init()'; onresize='init();' >
+<div id='brd'
+onmousedown="process_mouse(event, 0);"
+onmousemove="process_mouse(event, 1);" ></div>
+<div id='pan' style='position:absolute; left:700px; top:10px; ' >
+<div id='msg' style='position:absolute; left:0px; top:50px; width:200px' ></div>
+<div id='csr' style='position:absolute; left:0px; top:100px; opacity:0.9; ' ></div>
+<div id='udo' style='position:absolute; left:0px; top:200px;' >
+<input type='button' onclick='undo();' value='Undo' />
+</div>
+<div style='position:absolute; left:0px; top:250px;' >
+<input type='button' onclick='revw();' value='Review' />
+</div>
+<div style='position:absolute; left:0px; top:350px;' >
+<select id='type' onchange='stplay();'>
+<option value='0' selected>Five in Line</option>
+<option value='1' >Wei Qi (GO) </option>
+</select>
+</div>
+<div style='position:absolute; left:0px; top:400px;' >
+<select id='size' onchange='restart();'>
+<option value='0' selected>9X9</option>
+<option value='1' >13X13</option>
+<option value='2' >19X19</option>
+</select>
+</div>
+<div style='position:absolute; left:0px; top:450px;' >
+<input type='button' onclick='restart();' value='Restart' />
+</div>
+</div>
+</body>
+</html
