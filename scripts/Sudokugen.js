@@ -242,15 +242,17 @@ SudokuGen.prototype.setup = function(n)
     this.a = this.getArray(this.N, this.N);
     this.b = this.getArray(this.N, this.N);
     if (n == 0)this.goon(this.a, this.b);
-    else this.goof(this.a, this.b);
+    else // this.goof(this.a, this.b);
+        this.getrand();
 }
 // Take
-SudokuGen.prototype.take = function(n)
+SudokuGen.prototype.take = function(f, n)
 {
     if ( n == undefined ) 
         n = Math.floor(Math.random() * this.NT/2) + Math.floor(Math.random() * this.NT/3);
     var m = 0;
-    this.copy(this.C, this.a);
+    if( f == undefined || f == 0)
+        this.copy(this.C, this.a);
     var l = 0;
     while (l < 15) {
         while( m++ < n || l < 15) {
@@ -261,15 +263,33 @@ SudokuGen.prototype.take = function(n)
         }
     }
 }
+SudokuGen.prototype.rotate = function()
+{
+    var A = [];
+    for (i=0; i< this.NT; i++)
+        A[i] = this.C[i];
+    for (i = 0; i < this.N; i++)
+        for (j=0; j<this.N; j++)
+            this.C [j*this.N + this.N -(i+1)] = A[i*this.N + j]; 
+}
+SudokuGen.prototype.getrand = function()
+{
+    n = Math.floor(Math.random() * 4);
+    this.C = supsets[n];                // in Sudoku.data
+    n = Math.floor(Math.random() * 3);
+    for (i = 0; i < n; i++)
+        this.rotate();
+}
 // Get Game
 SudokuGen.prototype.getGame = function(n)
 { 
     this.setup(n);
-    if (n == 0) this.take();
-    else {
+//    if (n == 0) 
+        this.take(n);
+/*    else {
 	  this.copy(this.C, this.a);
         for (var k = 0; k < this.NT; k++)
 		this.C[k] *= -1;
-    }
+    } */
     return this.C;
 }

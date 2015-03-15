@@ -13,7 +13,7 @@ td.nm { width:40px; height:40px; font-size:30px;}
 </head>
 <body onload='new Sudoku().init();' >
 <div style='position:absolute;top:50px;left:100px;'>
-Load:<select onclick='mythis.reload(this.selectedIndex)'>
+Load:<select onmouseup='mythis.reload(this.selectedIndex)'>
 <option>Beginner</option><option>Medium</option><option>Advance</option><option>Random</option><option>Random1</option>
 </select> &nbsp;
 <input type='button' value='Check' onclick='mythis.refresh();' /> &nbsp;
