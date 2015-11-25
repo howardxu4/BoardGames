@@ -178,7 +178,7 @@ function tick() {
    }
    else
        move_down();
-   setTimeout("tick()", interval);
+   setTimeout("tick()", interval - score/200);
 }
 
 function move_down() {
