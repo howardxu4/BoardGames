@@ -213,7 +213,7 @@ function refresh()
 }
 
 function process_spk(event) {
-    if(window.event)
+//    if(window.event)
         process_key(event);
     return false;
 }
